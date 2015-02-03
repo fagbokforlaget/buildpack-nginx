@@ -1,11 +1,15 @@
-# NGINX Buildpack for Dokku - Hosting static pages
+# NGINX Buildpack for Dokku - Hosting static pages with Bower and Grunt automation
 This buildpack has been successfully run on Digital Ocean instances of Ubuntu 14.04 (Status: Jan 2015). It might also work with different configurations.
+
+If you do not want Bower, Grunt and it's dependecies installed then see this [buildpack](https://github.com/florianheinemann/buildpack-nginx)
 
 ## Purpose
 `buildpack-nginx` provides a simple, low overhead way of hosting static pages and websites on Dokku. Just add the `.env` and `.static` file to the root directory of your website as described below.
 
+It also installs NodeJS, bower and grunt to perform extra tasks on your static website and runs `grunt build --force` task.
+
 ## Usage
-1. Add a file with the name `.env` in the root of your directory with the following content: `export BUILDPACK_URL=https://github.com/florianheinemann/buildpack-nginx.git`
+1. Add a file with the name `.env` in the root of your directory with the following content: `export BUILDPACK_URL=https://github.com/fagbokforlaget/buildpack-nginx.git`
 2. Add another, *empty* file called `.static` to your root directory of your web project
 3. Push your project to Dokku
 
@@ -15,3 +19,4 @@ All static files that you want to serve should be in the root directory of your 
 `buildpack-nginx` is licensed under the CC0 1.0 Universal license and has been informed by many similar projects on the web
 
 [Florian Heinemann](http://twitter.com/TheSumOfAll/)
+[Deepak Thukral](http://iapa.in)
