@@ -17,6 +17,10 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 CUR_DIR=`cd $(dirname $0); cd ..; pwd`
 
+NODEJS_VERSION=$(curl --silent --get --data-urlencode "range=${node_engine}" https://semver.herokuapp.com/node/resolve)
+NODEJS_URL="http://s3pository.heroku.com/node/v$NODEJS_VERSION/node-v$NODEJS_VERSION-linux-x64.tar.gz"
+
+
 mkdir -p $BUILD_DIR $CACHE_DIR
 
 if [[ ! -e "$BUILD_DIR/www" ]]; then
@@ -106,6 +110,65 @@ else
   cp -r $CACHE_DIR/bin/* $BUILD_DIR/nginx/
 fi
 
+
+echo "-----> Installing NodeJS and dependecies"
+curl $NODEJS_URL -s -o - | tar xzf - -C $BUILD_DIR
+
+# Move node (and npm) into ./vendor and make them executable
+mkdir -p $BUILD_DIR/vendor
+mv $BUILD_DIR/node-v$NODE_VERSION-linux-x64 $BUILD_DIR/vendor/node
+chmod +x $BUILD_DIR/vendor/node/bin/*
+PATH=$BUILD_DIR/vendor/node/bin:$PATH
+
+echo `node --version`
+echo `npm --version`
+echo "-----> NodeJS installed"
+
+
+cd $BUILD_DIR/www
+sleep 10
+
+echo '-----> Installing packages'
+if [ -f "package.json" ]
+then
+    npm install
+else
+    echo "No package.json found"
+fi
+
+echo '-----> Installing Bower'
+if [ -f "./node_modules/bower/bin/bower" ]
+then
+  echo 'Bower already installed. Skipping...'
+else
+  npm install bower
+fi
+
+echo '-----> Installing Bower Packages'
+if [ -f "./bower.json" ]
+then
+  ./node_modules/bower/bin/bower install --allow-root
+else
+  echo 'bower.json missing. Nothing to install...'
+fi
+
+echo '-----> Installing grunt-cli'
+if [ -f "./node_modules/grunt-cli/bin/grunt" ]
+then
+  echo 'grunt-cli already installed. Skipping...'
+else
+  npm install grunt-cli
+fi
+
+echo '-----> Runnging Tasks'
+if [ -f "./Gruntfile.js" ]
+then
+  ./node_modules/grunt-cli/bin/grunt build --force
+else
+  echo 'Gruntfile.js is missing. No tasks to run...'
+fi
+
+
 cd $CUR_DIR
 
 # build nginx config unless overridden by user
@@ -119,6 +182,9 @@ cp conf/nginx.conf.erb $BUILD_DIR/nginx/nginx.conf.erb
 echo "-----> using default mime.types"
 cp conf/mime.types $BUILD_DIR/nginx/mime.types
 #fi
+
+# check if it's require to have nodejs for grunt/bower
+
 
 # build a startup script
 cat <<EOF >"$BUILD_DIR/start_nginx"
