@@ -18,5 +18,5 @@ All static files that you want to serve should be in the root directory of your 
 ## Credits and License
 `buildpack-nginx` is licensed under the CC0 1.0 Universal license and has been informed by many similar projects on the web
 
-[Florian Heinemann](http://twitter.com/TheSumOfAll/)
-[Deepak Thukral](http://iapa.in)
+* [Florian Heinemann](http://twitter.com/TheSumOfAll/)
+* [Deepak Thukral](http://iapa.in)
