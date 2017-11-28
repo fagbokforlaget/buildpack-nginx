@@ -138,37 +138,8 @@ else
     echo "No package.json found"
 fi
 
-echo '-----> Installing Bower'
-if [ -f "./node_modules/bower/bin/bower" ]
-then
-  echo 'Bower already installed. Skipping...'
-else
-  npm install bower
-fi
-
-echo '-----> Installing Bower Packages'
-if [ -f "./bower.json" ]
-then
-  ./node_modules/bower/bin/bower install --allow-root
-else
-  echo 'bower.json missing. Nothing to install...'
-fi
-
-echo '-----> Installing grunt-cli'
-if [ -f "./node_modules/grunt-cli/bin/grunt" ]
-then
-  echo 'grunt-cli already installed. Skipping...'
-else
-  npm install grunt-cli
-fi
-
-echo '-----> Runnging Tasks'
-if [ -f "./Gruntfile.js" ]
-then
-  ./node_modules/grunt-cli/bin/grunt build --force
-else
-  echo 'Gruntfile.js is missing. No tasks to run...'
-fi
+echo '-----> Building using npm run build'
+npm run build
 
 # Update the PATH
 mkdir -p $BUILD_DIR/.profile.d
