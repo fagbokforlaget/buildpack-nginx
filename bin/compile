@@ -138,11 +138,12 @@ else
     echo "No package.json found"
 fi
 
+echo '----> Writing .babelrc'
+echo '{"presets":["env"]}' > .babelrc
+
 echo '-----> Building using npm run build'
 npm run build
 
-echo '----> Writing .babelrc'
-echo '{"presets":["env"]}' > .babelrc
 
 # Update the PATH
 mkdir -p $BUILD_DIR/.profile.d
