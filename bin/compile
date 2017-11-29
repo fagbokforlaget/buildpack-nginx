@@ -141,6 +141,9 @@ fi
 echo '-----> Building using npm run build'
 npm run build
 
+echo '----> Writing .babelrc'
+echo '{"presets":["env"]}' > .babelrc
+
 # Update the PATH
 mkdir -p $BUILD_DIR/.profile.d
 cat > $BUILD_DIR/.profile.d/nginx.sh <<"EOF"
