@@ -170,6 +170,17 @@ else
   echo 'Gruntfile.js is missing. No tasks to run...'
 fi
 
+echo '-----> Runnging npm build'
+if [ -f "./package.json" ]
+then
+  echo $NODE_ENV
+  echo $BUILD_COMMAND
+  eval $BUILD_COMMAND
+else
+  echo 'package.json is missing. Nothing to build'
+fi
+
+
 # Update the PATH
 mkdir -p $BUILD_DIR/.profile.d
 cat > $BUILD_DIR/.profile.d/nginx.sh <<"EOF"
