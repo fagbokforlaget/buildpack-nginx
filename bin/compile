@@ -5,9 +5,9 @@ set -e
 set -o pipefail
 
 # Nginx 1.8.1
-NGINX_VERSION="1.8.1"
+NGINX_VERSION="1.15.8"
 NGINX_TARBALL="nginx-${NGINX_VERSION}.tar.gz"
-PCRE_VERSION="8.40"
+PCRE_VERSION="8.42"
 PCRE_TARBALL="pcre-${PCRE_VERSION}.tar.gz"
 ZLIB_VERSION="1.2.11"
 ZLIB_TARBALL="zlib-${ZLIB_VERSION}.tar.gz"
@@ -47,7 +47,7 @@ fi
 
 if [[ ! -d "${PCRE_TARBALL%.tar.gz}" ]]; then
   echo "-----> download and unzip pcre"
-  curl "http://ftp.csx.cam.ac.uk/pub/software/programming/pcre/${PCRE_TARBALL}" -o "${PCRE_TARBALL}"
+  curl "http://ftp.pcre.org/pub/pcre/${PCRE_TARBALL}" -o "${PCRE_TARBALL}"
   tar xzf "${PCRE_TARBALL}" && rm -f "${PCRE_TARBALL}"
 fi
 
