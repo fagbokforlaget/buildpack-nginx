@@ -138,44 +138,18 @@ else
     echo "No package.json found"
 fi
 
-echo '-----> Installing Bower'
-if [ -f "./node_modules/bower/bin/bower" ]
-then
-  echo 'Bower already installed. Skipping...'
-else
-  npm install bower
-fi
-
-echo '-----> Installing Bower Packages'
-if [ -f "./bower.json" ]
-then
-  ./node_modules/bower/bin/bower install --allow-root
-else
-  echo 'bower.json missing. Nothing to install...'
-fi
-
-echo '-----> Installing grunt-cli'
-if [ -f "./node_modules/grunt-cli/bin/grunt" ]
-then
-  echo 'grunt-cli already installed. Skipping...'
-else
-  npm install grunt-cli
-fi
-
-echo '-----> Runnging Tasks'
-if [ -f "./Gruntfile.js" ]
-then
-  ./node_modules/grunt-cli/bin/grunt build --force
-else
-  echo 'Gruntfile.js is missing. No tasks to run...'
-fi
+# Hack to write babelrc
+echo '----> Writing .babelrc'
+echo '{"presets":["env"]}' > .babelrc
 
 echo '-----> Runnging npm build'
 if [ -f "./package.json" ]
 then
-  echo $NODE_ENV
-  echo $BUILD_COMMAND
-  eval $BUILD_COMMAND
+  if [ -n "$BUILD_COMMAND" ]; then
+    eval $BUILD_COMMAND
+  else
+    echo 'Nothing to build.'
+  fi
 else
   echo 'package.json is missing. Nothing to build'
 fi
