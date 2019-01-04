@@ -6,6 +6,7 @@ set -o pipefail
 
 # Nginx 1.8.1
 NGINX_VERSION="1.15.8"
+NODEJS_VERSION="10.15.0"
 NGINX_TARBALL="nginx-${NGINX_VERSION}.tar.gz"
 PCRE_VERSION="8.42"
 PCRE_TARBALL="pcre-${PCRE_VERSION}.tar.gz"
@@ -17,7 +18,6 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 CUR_DIR=`cd $(dirname $0); cd ..; pwd`
 
-NODEJS_VERSION=$(curl --silent --get --data-urlencode "range=${node_engine}" https://semver.herokuapp.com/node/resolve)
 NODEJS_URL="http://s3pository.heroku.com/node/v$NODEJS_VERSION/node-v$NODEJS_VERSION-linux-x64.tar.gz"
 
 
